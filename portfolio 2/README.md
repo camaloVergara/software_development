@@ -29,7 +29,7 @@ The code is split into MVC parts so the user interface, the logic and the databa
 | `View` | Builds the JavaFX layout (`GridPane`s inside a `BorderPane`) and holds the controls. Contains no logic or SQL. |
 | `Controller` | Attaches the event listeners to the View's buttons and fields, validates input and calls the Model. |
 | `Model` | Creates the database tables and contains all queries and inserts. |
-| `MyDB` | Small JDBC helper for opening the SQLite connection and running commands and queries. |
+| `MyDB` | Small JDBC helper for opening the SQLite connection and running commands and queries. Provided by the course (see Acknowledgements). |
 
 ## Database
 
@@ -90,6 +90,10 @@ src/main/java/org/example/portfolio2x/
 ├── Model.java
 └── MyDB.java
 ```
+
+## Acknowledgements
+
+The `MyDB` class was provided as part of the Software Development course at Roskilde University and is not my own work. All other classes were written by me.
 
 ## Author
 
