@@ -1,0 +1,70 @@
+package org.example.portfolio2x;
+import java.sql.*;
+import java.util.ArrayList;
+
+public class MyDB{
+    Connection conn = null;
+    public MyDB(){
+        if (conn == null) open();
+    }
+    public void open(){
+    try { String url = "jdbc:sqlite:identifier.sqlite";
+        conn = DriverManager.getConnection(url);
+    } catch (SQLException e){
+        System.out.println("cannot open");
+        if (conn != null) close();
+        throw new RuntimeException(e);
+        }
+    } public void close(){
+        try{
+            if (conn != null) conn.close();
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        conn = null;
+    }
+
+
+    public void cmd(String sql) {
+        if (conn == null) open();
+        if (conn == null) {
+            System.out.println("No connection");
+            return;
+        }
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            System.out.println("Error in statement " + sql);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ArrayList<String> query(String query, String fld){
+        ArrayList<String> res = new ArrayList<>();
+        if (conn == null) open();
+        if (conn == null){
+            throw new RuntimeException("No connection");
+        }
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()){
+                String name = rs.getString(fld);
+                res.add(name);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            if (stmt != null) {
+                stmt.close();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return res;
+    }
+}
